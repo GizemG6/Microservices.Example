@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Order.API.ViewModels;
 using Order.API.Models.Entities;
+using Order.API.Models;
 
 namespace Order.API.Controllers
 {
@@ -8,6 +9,13 @@ namespace Order.API.Controllers
     [ApiController]
     public class OrdersController : Controller
     {
+        readonly OrderAPIDbContext _context;
+
+        public OrdersController(OrderAPIDbContext context)
+        {
+            _context = context;
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateOrder(CreateOrderVM createOrder)
         {
@@ -26,7 +34,10 @@ namespace Order.API.Controllers
                 ProductId = oi.ProductId,
             }).ToList();
 
-            order.TotalPrice = createOrder.OrderItems.Sum(oi => oi.Price);
+            order.TotalPrice = createOrder.OrderItems.Sum(oi => (oi.Price * oi.Count));
+
+            await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
 
             return Ok();
         }

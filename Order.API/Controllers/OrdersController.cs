@@ -3,13 +3,12 @@ using Order.API.ViewModels;
 using Order.API.Models.Entities;
 using Order.API.Models;
 using Microsoft.EntityFrameworkCore;
-using Order.API.Mapper;
 
 namespace Order.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : Controller
+    public class OrdersController : ControllerBase
     {
         readonly OrderAPIDbContext _context;
 
@@ -24,7 +23,7 @@ namespace Order.API.Controllers
             Order.API.Models.Entities.Order order = new()
             {
                 OrderId = Guid.NewGuid(),
-                BuyerID = createOrder.BuyerID,
+                BuyerId = createOrder.BuyerId,
                 CreatedDate = DateTime.Now,
                 OrderStatus = Models.Enums.OrderStatus.Suspend
             };

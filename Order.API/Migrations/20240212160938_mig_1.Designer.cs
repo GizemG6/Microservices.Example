@@ -12,7 +12,7 @@ using Order.API.Models;
 namespace Order.API.Migrations
 {
     [DbContext(typeof(OrderAPIDbContext))]
-    [Migration("20240210193230_mig_1")]
+    [Migration("20240212160938_mig_1")]
     partial class mig1
     {
         /// <inheritdoc />
@@ -31,7 +31,7 @@ namespace Order.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("BuyerID")
+                    b.Property<Guid>("BuyerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("CreatedDate")

@@ -2,7 +2,7 @@
 {
     public class CreateOrderVM
     {
-        public Guid BuyerID { get; set; }
+        public Guid BuyerId { get; set; }
         public List<CreateOrderItemVM> OrderItems { get; set; }
     }
 }

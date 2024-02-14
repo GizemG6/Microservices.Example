@@ -15,7 +15,13 @@ builder.Services.AddDbContext<OrderAPIDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("SQLServer"));
 });
 
-builder.Services.AddMassTransit();
+builder.Services.AddMassTransit(configarator =>
+{
+    configarator.UsingRabbitMq((context, _configurator) =>
+    {
+        _configurator.Host(builder.Configuration["RabbitMQ"]);
+    });
+});
 
 var app = builder.Build();
 

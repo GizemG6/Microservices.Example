@@ -1,4 +1,6 @@
 using MassTransit;
+using Shared;
+using Stock.API.Consumer;
 using Stock.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +14,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMassTransit(configarator =>
 {
+    configarator.AddConsumer<OrderCreatedEventConsumer>();
     configarator.UsingRabbitMq((context, _configurator) =>
     {
         _configurator.Host(builder.Configuration["RabbitMQ"]);
+
+        _configurator.ReceiveEndpoint(RabbitMQSettings.Stock_OrderCreatedEventQueue, e => e.ConfigureConsumer<OrderCreatedEventConsumer>(context));
     });
 });
 
